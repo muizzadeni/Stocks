@@ -1,10 +1,18 @@
+@keyframes spin { /* Challenge 1 to make the spinner rotate, using keyframes for animating*/
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .spinner{
   font-size: 140px;
 }
 .spinner:after {
   content: '◌';
+  position: absolute; /* Challenge 1, added position absolute to make element free to move */
+  animation: spin 2s linear infinite; /* Challenge 1, spinner fps */
 }
 
 #chart {
     border: 1px solid black;
+    margin-top: 10%; /* Challenge 1, added to make spinner not colide with others and look pretty */
 }
