@@ -1,18 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>STXNEXT recruitment task</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-<div>
-    <span class="spinner" id="loader"></span>
-    <!-- Challenge 1 - added id of loader to spinner -->
-</div>
+    <div>
+        <span class="spinner" id="loader"></span>
+        <!-- challenge 1, added id of loader to spinner -->
+    </div>
 
-<canvas id="chart" width="1000" height="600"></canvas>
+    <canvas id="chart" width="1000" height="600"></canvas>
 
-<script src="scripts.js" defer></script>
+    <script src="scripts.js" defer></script>
 </body>
+
+<script>
+      setTimeout(()=>{ fetch('http://localhost:3000/stocks', { // Challenge 2
+        method: 'GET',
+        mode: 'cors',
+    })
+        .then(response => response.json())
+        .then(data => {
+            var stockName = data.stockSymbols
+            if(stockName.length == 0){ // Challenge 6 only if statement
+                console.log("Error! Stocks not found, please recheck data");
+                document.getElementById('loader').style.display = "none"; /* To remove and hide the spinner */
+            }else{ 
+                console.log(stockName) //Challenge 5
+            } // challenge 2 ends here
+           
+            for (var i = 0; i < stockName.length; i++) {  /* Challenge 3 To get values of each stock data */
+                fetch('http://localhost:3000/stocks' + "/" + stockName[i], {
+                    method: 'GET',
+                    mode: 'cors',
+                })
+                    .then(response => response.json())
+                    .then(stocks => {
+                        console.log(stocks) //Challenge 5
+                        if(stocks){ // Challenge 4
+                            document.getElementById('loader').style.display = "none";
+                        } // Challenge 4 ends here
+                    });
+            } // Challenge 3 ends here
+        }); }, 3000);
+    
+</script>
+
 </html>
