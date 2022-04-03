@@ -10,7 +10,12 @@ app.get('/stocks', async (req, res,next) => {
   try { /*To catch an error*/
     const stockSymbols = await stocks.getStocks()
     //const stockSymbols = await [] // Challenge 6 To display error message due to empty array
-    res.send({ stockSymbols })
+    if(stockSymbols.length == 0){ //to return the error of challenge 6 from back end
+      res.send({error:'Data not found! Please check the stocks data file.'})
+    }else{
+      res.send({ stockSymbols })
+    }
+    
   }catch(err){
     next(err)
   }

@@ -26,11 +26,24 @@
         .then(response => response.json())
         .then(data => {
             var stockName = data.stockSymbols
-            if(stockName.length == 0){ // Challenge 6 only if statement
-                console.log("Error! Stocks not found, please recheck data");
+            if(data.stockSymbols){ // Challenge 6 only if statement
+                console.log(data.stockSymbols) //to return error from back end now, instead of front end due to random errors
+                for (var i = 0; i < data.stockSymbols.length; i++) { 
+                fetch('http://localhost:3000/stocks' + "/" + data.stockSymbols[i], {
+                    method: 'GET',
+                    mode: 'cors',
+                })
+                    .then(response => response.json())
+                    .then(stocks => {
+                        console.log(stocks)
+                        if(stocks){
+                            document.getElementById('loader').style.display = "none";
+                        }
+                    });
+            }
                 document.getElementById('loader').style.display = "none"; /* To remove and hide the spinner */
             }else{ 
-                console.log(stockName) //Challenge 5
+                console.log(data.error) //Challenge 5
             } // challenge 2 ends here
            
             for (var i = 0; i < stockName.length; i++) {  /* Challenge 3 To get values of each stock data */
